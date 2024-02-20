@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Animes por Categoría</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body class="container" style="margin-top: 50px;">
+    <% if (messages.success) { %>
+        <div class="alert alert-success" role="alert"><%- messages.success %></div>
+    <% } %>
+
+    <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+    <% } %>
+
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills w-100">
+                <li class="nav-pill active">
+                    <a class="nav-link">Categorías</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <% if(data.length) { %>
+                <% data.forEach(function(row) { %>
+                    <h5 class="mb-1">Categoría: <%= row.categoria_nombre %></h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Sinopsis</th>
+                                <th scope="col">Imagen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% row.animes.forEach(function(anime) { %>
+                                <tr>
+                                    <td><%= anime.id %></td>
+                                    <td><%= anime.nombre %></td>
+                                    <td><%= anime.sinopsis %></td>
+                                    <td>
+                                        <% if(anime.imagen_blob) { %>
+                                            <img src="data:image/jpeg;base64,<%= anime.imagen_blob.toString('base64') %>"
+                                                alt="<%= anime.nombre %>" style="max-width: 100px; max-height: 100px;">
+                                        <% } else { %>
+                                            <p>No hay imagen disponible</p>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% }) %>
+            <% } else { %>
+                <p class="text-center">No se han encontrado animes por categoría.</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+
+</html>

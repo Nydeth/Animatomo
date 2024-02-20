@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Animes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body class="container" style="margin-top: 50px;">
+    <% if (messages.success) { %>
+        <div class="alert alert-success" role="alert"><%- messages.success %></div>
+    <% } %>
+
+    <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+    <% } %>
+
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills w-100">
+                <li class="nav-pill active">
+                    <a class="nav-link">Animes</a>
+                </li>
+                <li class="nav-pill ml-auto">
+                    <a class="nav-link active" href="/Anime/add">Añadir un anime</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <% if(data.length) { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Sinopsis</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Imagen</th>
+                            <th width="200px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i< data.length; i++) { %>
+                            <tr>
+                                <td>
+                                    <%= data[i].id %>
+                                </td>
+                                <td>
+                                    <%= data[i].nombre %>
+                                </td>
+                                <td>
+                                    <%= data[i].sinopsis %>
+                                </td>
+                                <td>
+                                    <%= data[i].categoria_nombre %>
+                                </td>
+                                <td>
+                                    <% if(data[i].imagen_blob) { %>
+                                        <img src="data:image/jpeg;base64,<%= data[i].imagen_blob.toString('base64') %>"
+                                            alt="<%= data[i].nombre %>"
+                                            style="max-width: 100px; max-height: 100px;">
+                                    <% } else { %>
+                                        <p>No hay imagen disponible</p>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success edit"
+                                        href="/Anime/edit/<%= data[i].id %>">Editar</a>
+                                    <a class="btn btn-danger delete"
+                                        onclick="return confirm('¿Estás seguro de que quieres eliminarlo?')"
+                                        href="/Anime/delete/<%= data[i].id %>">Eliminar</a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p class="text-center">No se han encontrado animes.</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
