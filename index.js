@@ -9,7 +9,7 @@ var mysql = require('mysql');
 var conexion = require('./lib/db');
 var router = require('./routes/Animes');
 var app = express();
-const upload = multer();
+const upload = multer({ storage: multer.memoryStorage() });
 
 app.post('/images/single', upload.single('imagenAnime'), (req, res) => {
   console.log(req.file);
