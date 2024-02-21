@@ -5,32 +5,34 @@ const fs = require('node:fs');
 var path = require('path');
 var flash = require('express-flash');
 var session = require('express-session');
-var mysql = require('mysql');
-var conexion  = require('./lib/db');
 var router = require('./routes/Animes');
 var app = express();
-const upload = multer({ dest: 'uploads/'});
 const bodyParser = require('body-parser');
+const { client, connectToDatabase } = require('./lib/db'); // Importa el cliente de MongoDB
 
-app.post('/images/single', upload.single('imagenAnime'), (req, res) => {
-  console.log(req.file);
-  saveImage(req.file);
-res.send('Termina');
+// Conexión a MongoDB Atlas
+connectToDatabase();
+
+// Multer storage para guardar archivos en MongoDB Atlas
+const upload = multer({
+  storage: multer.memoryStorage(), // Guarda los archivos en la memoria temporalmente
 });
 
-app.post('/images/multi', upload.array('photos', 10), (req, res) => {
-  req.files.map(saveImage);
-  res.send('Termina multi');
+// Ruta para subir una sola imagen
+app.post('/images/single', upload.single('imagenAnime'), async (req, res) => {
+  try {
+    const collection = client.db().collection('Anime'); // Obtén la colección de Anime
+    const result = await collection.insertOne({
+      nombre: req.file.originalname,
+      imagen_blob: req.file.buffer, // Guarda el buffer del archivo en la base de datos
+    });
+    console.log('Imagen guardada en MongoDB Atlas:', result.insertedId);
+    res.send('Imagen subida exitosamente');
+  } catch (error) {
+    console.error('Error al subir la imagen:', error);
+    res.status(500).send('Error al subir la imagen');
+  }
 });
-
-function saveImage(file) {
-  if (!file) return null;
-
-  const newPath = `./uploads/${file.originalname}`;
-  fs.renameSync(file.path, newPath);
-  return newPath;
-}
-
 
 // Configuración de la vista
 app.set('views', path.join(__dirname, 'views'));
@@ -68,4 +70,7 @@ app.use(function(req, res, next) {
 });
 
 // Configura el puerto en el que escucha el servidor
-app.listen(3000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
+});
