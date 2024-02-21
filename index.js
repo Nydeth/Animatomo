@@ -23,43 +23,6 @@ app.post('/images/multi', upload.array('photos', 10), (req, res) => {
   res.send('Termina multi');
 });
 
-const { client } = require('./lib/db');
-
-async function saveImage(file) {
-  if (!file) return null;
-
-  try {
-    // Conecta a la base de datos
-    await client.connect();
-    console.log('Conexión a MongoDB Atlas exitosa');
-
-    // Obtiene la base de datos y la colección
-    const database = client.db('basesdaw2');
-    const collection = database.collection('Anime');
-
-    // Lee los datos binarios del archivo
-    const imageData = fs.readFileSync(file.path);
-
-    // Actualiza el documento en la colección con los datos de la imagen
-    const updateResult = await collection.updateOne(
-      { _id: ObjectId(req.params.id) }, // Ajusta esta consulta según tu estructura de datos
-      { $set: { imagen_blob: imageData } }
-    );
-
-    console.log('Imagen actualizada en MongoDB Atlas:', updateResult);
-  } catch (error) {
-    console.error('Error al actualizar la imagen en MongoDB Atlas:', error);
-  } finally {
-    // Cierra la conexión a la base de datos
-    await client.close();
-  }
-
-  return file.originalname;
-}
-
-
-
-
 // Configuración de la vista
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
