@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animes</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
-
 <body class="container" style="margin-top: 50px;">
     <% if (messages.success) { %>
         <div class="alert alert-success" role="alert"><%- messages.success %></div>
     <% } %>
-
     <% if (messages.error) { %>
         <div class="alert alert-danger" role="alert"><%- messages.error %></div>
     <% } %>
-
     <div class="card">
         <div class="card-header">
             <ul class="nav nav-pills w-100">
@@ -36,7 +32,7 @@
                             <th scope="col">id</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Sinopsis</th>
-                            <th scope="col">Categoría</th>
+                            <th scope="col">Género</th>
                             <th scope="col">Imagen</th>
                             <th width="200px">Action</th>
                         </tr>
@@ -82,5 +78,4 @@
         </div>
     </div>
 </body>
-
 </html>

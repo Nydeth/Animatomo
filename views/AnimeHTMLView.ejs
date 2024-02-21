@@ -1,0 +1,45 @@
+<!-- AnimeHTMLView.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Animes</title>
+</head>
+<body>
+    <h1>Lista de Animes</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Sinopsis</th>
+                <th>Categoría</th>
+                <th>Imagen</th>
+                <th>Fecha de Creación</th>
+                <th>Fecha de Modificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(anime => { %>
+                <tr>
+                    <td><%= anime.id %></td>
+                    <td><%= anime.nombre %></td>
+                    <td><%= anime.sinopsis %></td>
+                    <td><%= anime.categoria_nombre %></td>
+                    <td>
+                        <% if (anime.imagen_blob) { %>
+                            <img src="data:image/jpeg;base64,<%= anime.imagen_blob.toString('base64') %>" alt="<%= anime.nombre %>">
+                        <% } else { %>
+                            No disponible
+                        <% } %>
+                    </td>
+                    <td><%= anime.fecha_creacion %></td>
+                    <td><%= anime.fecha_modificacion %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

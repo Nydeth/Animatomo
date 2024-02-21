@@ -26,9 +26,9 @@
             </ul>
         </div>
         <div class="card-body">
-            <% if(data.length) { %>
-                <% data.forEach(function(row) { %>
-                    <h5 class="mb-1">Categoría: <%= row.categoria_nombre %></h5>
+            <% if(Object.keys(data).length) { %>
+                <% Object.keys(data).forEach(categoria => { %>
+                    <h5 class="mb-1">Género: <%= categoria %></h5>
                     <table class="table">
                         <thead>
                             <tr>
@@ -39,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% row.animes.forEach(function(anime) { %>
+                            <% data[categoria].forEach(function(anime) { %>
                                 <tr>
                                     <td><%= anime.id %></td>
                                     <td><%= anime.nombre %></td>
