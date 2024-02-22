@@ -98,7 +98,7 @@ router.post('/add', upload.single('imagenAnime'), async function(req, res, next)
                 lastId = parseInt(lastAnime.data[lastAnime.data.length - 1].id) + 1; // Incrementar el último ID en 1
             }
 
-            let imagenBuffer = fs.readFileSync(imagen.path);
+            let imagenBuffer = imagen.buffer;
             let currentDate = new Date();
 
             var animeDocument = {
@@ -181,7 +181,7 @@ router.post('/update/:id', upload.single('imagenAnime'), async function(req, res
 
         if (imagen) {
             form_data.imagen_nombre = imagen.originalname;
-            form_data.imagen_blob = fs.readFileSync(imagen.path);
+            form_data.imagen_blob = imagen.buffer;
         }
 
         await collection.updateOne(
